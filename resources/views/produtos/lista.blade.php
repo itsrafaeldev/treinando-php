@@ -46,7 +46,7 @@
         $(document).ready(() => {
             $("#gridContainer").dxDataGrid({
                 dataSource: [{
-                        // PaymentId: 1,
+                        id: 1,
                         nome: 'Casa',
                         descricao: 'Descricao 1',
                         // Amount: 1740,
@@ -58,6 +58,7 @@
                         // CompanyName: 'ElectrixMax',
                         // Amount: 850,
                         // PaymentDate: '2013/01/13',
+                        id: 2,
                         nome: 'Construcao',
                         descricao: 'Descricao 2',
                     },
@@ -66,7 +67,8 @@
                         // ContactName: 'Janet Leverling',
                         // CompanyName: 'Video Emporium',
                         // Amount: 2235,
-                        // PaymentDate: '2013/01/07',
+                        // PaymentDate: '2013/01/07',\
+                        id: 3,
                         nome: 'Papelaria',
                         descricao: 'Descricao 3',
                     },
@@ -137,9 +139,9 @@
             $.ajax({
                 url: '/salvar-dados',
                 type: 'POST',
-                data: {
+                data: JSON.stringify({
                     dados: dados
-                },
+                }),
                 contentType: 'application/json',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

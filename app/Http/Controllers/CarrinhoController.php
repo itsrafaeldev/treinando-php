@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Categoria;
 class CarrinhoController extends Controller
 {
     public function listaCarrinho()
@@ -42,19 +42,59 @@ class CarrinhoController extends Controller
         return redirect('carrinho')->with('sucesso', 'Produto atualizado com sucesso!');
     }
 
-    public function salvar(Request $request){
-           $dados = $request->input('dados'); // ou $request->get('dados')
-            dd($dados);
+    // public function salvar(Request $request){
+    //     try {
+    //     $dados = $request->json()->get('dados');
+    //     dd($dados);
 
-            // foreach ($dados as $item) {
-            //     Produto::updateOrCreate(
-            //         [
-            //             'payment_id' => $item['PaymentId']],
-            //         [
-            //         'nome' => $item['nome'],
-            //         'descricao' => $item['descricao'],
-            //         ]
-            //     );
-            // }
+
+    //         // foreach ($dados as $item) {
+    //         //     Categoria::updateOrCreate(
+    //         //         [
+    //         //             'id' => $item['id']],
+    //         //         [
+    //         //         'nome' => $item['nome'],
+    //         //         'descricao' => $item['descricao'],
+    //         //         ]
+    //         //     );
+    //         // }
+    //                     foreach ($dados as $item) {
+    //             Categoria::updateOrCreate(
+    //                 ['id' => $item['id'] ?? null],
+    //                 [
+    //                     'nome' => $item['nome'] ?? '',
+    //                     'descricao' => $item['descricao'] ?? ''
+    //                 ]
+    //             );
+    //         }
+
+    //     } catch (\Throwable $e) {
+    //         echo $e;
+
+    //             }
+
+
+    // }
+
+    public function salvar(Request $request)
+{
+    try {
+        $dados = $request->input('dados');
+        foreach ($dados as $item) {
+
+            Categoria::updateOrCreate(
+                ['id' => $item['id'] ?? null],
+                [
+                    'nome' => $item['nome'] ?? '',
+                    'descricao' => $item['descricao'] ?? ''
+                ]
+            );
+        }
+
+        return response()->json(['status' => 'ok']);
+    } catch (\Throwable $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
+
 }
