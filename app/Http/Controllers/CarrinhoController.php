@@ -9,92 +9,74 @@ class CarrinhoController extends Controller
     public function listaCarrinho()
     {
         $itens = \Cart::content();
-        // dd($itens);
-        return view('carrinho.lista',compact('itens'));
+        \Cart::Tax(0);
+        $total = \Cart::total();
+         return view('carrinho.lista', compact('itens', 'total'));
     }
 
-     public function addCarrinho(Request $request)
+    public function addCarrinho(Request $request)
     {
         $itens = \Cart::add([
             'id' => $request->id,
-            'name'=> $request->name,
-            'price'=> $request->price,
-            'qty'=> is_array($request->qnt) ? $request->qnt['value'] : $request->qnt,
+            'name' => $request->name,
+            'price' => $request->price,
+            'qty' => is_array($request->qnt) ? abs($request->qnt['value']) : abs($request->qnt),
             'weight' => $request->weight ?? 0,
-            'options'=> [
-                'image'=> $request->img
-            ]
+            'options' => [
+                'image' => $request->img
+            ],
+
         ]);
+
+        \Cart::setGlobalTax(0);
 
 
 
         return redirect('carrinho')->with('sucesso', 'Produto adicionado com sucesso!');
     }
 
-    public function removeCarrinho(Request $request){
+    public function removeCarrinho(Request $request)
+    {
         \Cart::remove($request->id);
         return redirect('carrinho')->with('sucesso', 'Produto removido com sucesso!');
     }
 
-     public function atualizaCarrinho(Request $request){
-        // dd($request);
-        \Cart::update($request->id, ['qty'=>$request->qty]);
+    public function atualizaCarrinho(Request $request)
+    {
+        \Cart::update($request->id, [
+            'qty' => abs((int) $request->qty)
+        ]);
+
+
         return redirect('carrinho')->with('sucesso', 'Produto atualizado com sucesso!');
     }
 
-    // public function salvar(Request $request){
-    //     try {
-    //     $dados = $request->json()->get('dados');
-    //     dd($dados);
+    public function limparCarrinho(Request $request)
+    {
 
-
-    //         // foreach ($dados as $item) {
-    //         //     Categoria::updateOrCreate(
-    //         //         [
-    //         //             'id' => $item['id']],
-    //         //         [
-    //         //         'nome' => $item['nome'],
-    //         //         'descricao' => $item['descricao'],
-    //         //         ]
-    //         //     );
-    //         // }
-    //                     foreach ($dados as $item) {
-    //             Categoria::updateOrCreate(
-    //                 ['id' => $item['id'] ?? null],
-    //                 [
-    //                     'nome' => $item['nome'] ?? '',
-    //                     'descricao' => $item['descricao'] ?? ''
-    //                 ]
-    //             );
-    //         }
-
-    //     } catch (\Throwable $e) {
-    //         echo $e;
-
-    //             }
-
-
-    // }
+        \Cart::destroy();
+        return redirect('carrinho')->with('aviso', 'Seu carrinho está vazio!');
+    }
 
     public function salvar(Request $request)
-{
-    try {
-        $dados = $request->input('dados');
-        foreach ($dados as $item) {
+    {
+        try {
+            $dados = $request->input('dados');
+            foreach ($dados as $item) {
 
-            Categoria::updateOrCreate(
-                ['id' => $item['id'] ?? null],
-                [
-                    'nome' => $item['nome'] ?? '',
-                    'descricao' => $item['descricao'] ?? ''
-                ]
-            );
+                Categoria::updateOrCreate(
+                    ['id' => $item['id'] ?? null],
+                    [
+                        'nome' => $item['nome'] ?? '',
+                        'descricao' => $item['descricao'] ?? ''
+                    ]
+                );
+            }
+
+            return response()->json(['status' => 'ok']);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        return response()->json(['status' => 'ok']);
-    } catch (\Throwable $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
     }
-}
 
 }

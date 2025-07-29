@@ -93,16 +93,12 @@
                 },
                 columnChooser: {
                     enabled: true,
-                    mode: "select", // or "dragAndDrop"
+                    mode: "select", 
                 },
                 allowColumnResizing: true,
                 allowColumnReordering: true,
                 columns: [
-                    // "PaymentId",
-                    // "ContactName",
-                    // "CompanyName",
-                    // "Amount",
-                    // "PaymentDate"
+
                     "nome",
                     "descricao"
                 ],

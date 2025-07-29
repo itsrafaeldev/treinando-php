@@ -71,8 +71,9 @@
                     </a>
 
                 </li>
-                <li><a href="{{ route('carrinho') }}">Carrinho <span class="new badge blue"
-                            data-badge-caption>{{ \Cart::content()->count() }}</span></a></li>
+                <li><a href="{{ route('carrinho') }}">
+                    <span class="material-icons">shopping_cart</span>
+                    <span class="new badge blue" data-badge-caption>{{ \Cart::content()->count() }}</span></a></li>
             </ul>
         </div>
     </nav>
