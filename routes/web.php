@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{ProdutoController, CategoriaController, CarrinhoController, LoginController, DashboardController};
+use App\Http\Controllers\{ProdutoController, CategoriaController, CarrinhoController, LoginController, DashboardController, UserController};
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'produtos')->name('home');
@@ -16,6 +16,11 @@ Route::get('limpar', [CarrinhoController::class, 'limparCarrinho'])->name('carri
 Route::post('salvar-dados', [CarrinhoController::class, 'salvar'])->name('salvar-dados');
 
 Route::view('login', view: 'login.form')->name('login.form');
+Route::get('logout', [LoginController::class, 'logout'])->name('login.logout');
 Route::post('auth', [LoginController::class, 'auth'])->name('login.auth');
+Route::view('register', 'login.register')->name('login.register');
+Route::post('create', [UserController::class, 'create'])->name('login.create');
 
-Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+
+Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth');

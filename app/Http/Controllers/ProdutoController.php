@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
+
 
 class ProdutoController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -19,7 +23,8 @@ class ProdutoController extends Controller
     public function details($slug)
     {
         $produto = Produto::where('slug', $slug)->first();
-
+        // Gate::authorize('ver-produto', $produto);
+        $this->authorize('verProduto', $produto);
         return view('produtos.details', compact('produto'));
     }
 

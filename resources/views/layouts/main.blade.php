@@ -61,8 +61,8 @@
 
     <nav class="purple darken-2">
         <div class="nav-wrapper container">
-            <a href="{{ route('home') }}" class="brand-logo left">CursoLaravel</a>
-            <ul id="nav-mobile" class="right">
+            <a href="{{ route('home') }}" class="brand-logo center">CursoLaravel</a>
+            <ul id="nav-mobile" class="left">
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li>
                     <a href="" class="dropdown-trigger" data-target="dropdown1">
@@ -72,9 +72,26 @@
 
                 </li>
                 <li><a href="{{ route('carrinho') }}">
-                    <span class="material-icons">shopping_cart</span>
-                    <span class="new badge blue" data-badge-caption>{{ \Cart::content()->count() }}</span></a></li>
+                        <span class="material-icons">shopping_cart</span>
+                        <span class="new badge blue" data-badge-caption>{{ \Cart::content()->count() }}</span></a></li>
             </ul>
+            @auth
+                <ul id="nav-mobile" class="right">
+                    <li>
+                        <a href="#" class="dropdown-trigger" data-target="dropdown2">
+                            Olá {{ auth()->user()->firstname }}!
+                            <i class="material-icons right">expand_more</i>
+                        </a>
+                </ul>
+            @else
+                <ul id="nav-mobile" class="right">
+                    <li>
+                        <a href="{{ route('login.form') }}">
+                            Login
+                            <i class="material-icons right">login</i>
+                        </a>
+                </ul>
+            @endauth
         </div>
     </nav>
 
@@ -85,10 +102,12 @@
         @foreach ($categoriasMenu as $categoria)
             <li><a href="{{ route('categorias.produtos', $categoria->id) }}">{{ $categoria->nome }}</a></li>
         @endforeach
-
+    </ul>
+    <ul id='dropdown2' class='dropdown-content'>
+        <li><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+        <li><a href="{{ route('login.logout') }}">Sair</a></li>
 
     </ul>
-
 
 
 
