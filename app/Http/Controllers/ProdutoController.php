@@ -24,8 +24,19 @@ class ProdutoController extends Controller
     {
         $produto = Produto::where('slug', $slug)->first();
         // Gate::authorize('ver-produto', $produto);
-        $this->authorize('verProduto', $produto);
-        return view('produtos.details', compact('produto'));
+        // $this->authorize('verProduto', $produto);
+
+        if(Gate::denies('verProduto', $produto)){
+            return view('produtos.lista');
+        }
+
+        if (Gate::allows('verProduto', $produto)) {
+            return view('produtos.details', compact('produto'));
+        }
+
+
+
+        // return view('produtos.details', compact('produto'));
     }
 
     /**

@@ -10,10 +10,10 @@
                 <div class="card">
                     <div class="card-image">
                         <img id="imagem-produto" src="{{ $produto->imagem }}">
-
                         <a href="{{ route('produtos.details', $produto->slug) }}"
                             class="btn-floating halfway-fab waves-effect waves-light red"><i
                                 class="material-icons">visibility</i></a>
+
                     </div>
                     <div class="card-content">
                         <span class="card-title">{{ $produto->nome }}</span>
@@ -93,7 +93,7 @@
                 },
                 columnChooser: {
                     enabled: true,
-                    mode: "select", 
+                    mode: "select",
                 },
                 allowColumnResizing: true,
                 allowColumnReordering: true,
@@ -135,8 +135,25 @@
             $.ajax({
                 url: '/salvar-dados',
                 type: 'POST',
+                // data: JSON.stringify({
+                //     dados: dados
+                // }),
                 data: JSON.stringify({
-                    dados: dados
+                    usuarios: [{
+                        nome: 'Rafael',
+                        email: '30/07/2025',
+                        idade: 30
+                    },
+                    {
+                        nome: 'Maria',
+                        email: '29/07/2025',
+                        idade: 25
+                    },
+                    {
+                        nome: 'João',
+                        email: '30/07/2025',
+                        idade: 18
+                    }]
                 }),
                 contentType: 'application/json',
                 headers: {
