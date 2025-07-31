@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Produto;
+use App\Models\{Produto, Categoria};
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Gate;
@@ -16,8 +16,11 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        $produtos = Produto::paginate(3);
-        return view('produtos.lista', compact('produtos'));
+        $produtos = Produto::paginate(5);
+        $qtnProdutos = $produtos->count();
+        $categorias = Categoria::all();
+        return view('admin.produtos.lista', compact('produtos', 'qtnProdutos', 'categorias'));
+
     }
 
     public function details($slug)
@@ -52,7 +55,16 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produto = $request->all();
+        // dd($produto);
+        if($request->imagem){
+            $produto['imagem'] = $request->imagem->store('produtos');
+        }
+
+        $produto['slug'] = \Str::slug($request->nome);
+
+        $produto = Produto::create($produto);
+        return redirect()->route('admin.produtos')->with('sucesso', 'Produto cadastrado com sucesso!');
     }
 
     /**
@@ -84,6 +96,7 @@ class ProdutoController extends Controller
      */
     public function destroy(Produto $produto)
     {
-        //
+        $produto->delete();
+        return redirect()->route('admin.produtos')->with('sucesso', 'Produto removido com sucesso!');
     }
 }

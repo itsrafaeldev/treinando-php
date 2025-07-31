@@ -111,9 +111,6 @@
                 $('#container-mensagem').fadeOut(); // esconde a div após 3 segundos
             }, 2000); // 3000ms = 3 segundos
         });
-
-
-       
     </script>
 
 @endsection

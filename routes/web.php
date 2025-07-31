@@ -4,7 +4,7 @@ use App\Http\Controllers\{ProdutoController, CategoriaController, CarrinhoContro
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'produtos')->name('home');
-Route::resource('produtos', controller: ProdutoController::class);
+// Route::resource('produtos', controller: ProdutoController::class);
 Route::get('produtos/details/{slug}', [ProdutoController::class, 'details'])->name('produtos.details');
 Route::get('categoria/{id}', [CategoriaController::class, 'categoria'])->name('categorias.produtos');
 Route::get('carrinho', [CarrinhoController::class, 'listaCarrinho'])->name('carrinho');
@@ -24,3 +24,8 @@ Route::post('create', [UserController::class, 'create'])->name('login.create');
 
 
 Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth');
+Route::get('admin/produtos', [ProdutoController::class, 'index'])->name('admin.produtos');
+Route::delete('admin/produto/delete/{produto}', [ProdutoController::class, 'destroy'])->name('admin.produto.delete');
+Route::post('admin/produto/create', [ProdutoController::class, 'create'])->name('admin.produto.create');
+Route::post('admin/produto/store', [ProdutoController::class, 'store'])->name('admin.produto.store');
+

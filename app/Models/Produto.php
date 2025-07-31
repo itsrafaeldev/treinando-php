@@ -11,6 +11,15 @@ class Produto extends Model
     use HasFactory;
 
     protected $table = 'produtos';
+    protected $fillable = [
+        'nome',
+        'preco',
+        'descricao',
+        'imagem',
+        'slug',
+        'id_categoria',
+        'id_user',
+    ];
 
     public function user(){
         return $this->belongsTo(User::class, 'id_user');

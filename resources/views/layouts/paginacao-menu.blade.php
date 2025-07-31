@@ -32,7 +32,7 @@
         @if ($paginator->hasMorePages())
             <li class="waves-effect"><a href="{{ $paginator->nextPageUrl() }}"><i class="material-icons">chevron_right</i></a></li>
         @else
-            <li class="disabled"><a href="{{ $paginator->nextPageUrl() }}"><i class="material-icons">chevron_right</i></a></li>
+            <li class="disa bled"><a href="{{ $paginator->nextPageUrl() }}"><i class="material-icons">chevron_right</i></a></li>
         @endif
     </ul>
 @endif
